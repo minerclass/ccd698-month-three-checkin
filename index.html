@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Micah Miner's August 2026 dissertation check-in: proposal defense passed, qualitative interview guide refinement, IRB submission, and the path to approved research.">
+  <meta name="theme-color" content="#111318">
+  <title>CCD-698 | Month Three Dissertation Check-In</title>
+  <style>
+    :root {
+      --bg: #111318;
+      --surface: #181b22;
+      --surface-2: #20242d;
+      --line: #343945;
+      --ink: #f0eee8;
+      --muted: #a8adb7;
+      --gold: #f0bd45;
+      --teal: #67b9aa;
+      --blue: #70aee7;
+      --violet: #aaa1dc;
+      --green: #75bd8c;
+      --display: "Arial Black", Arial, sans-serif;
+      --body: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--bg); scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); overflow: hidden; }
+    a { color: inherit; }
+    button { font: inherit; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      height: 4px;
+      background: var(--line);
+    }
+    .progress span { display: block; width: calc(100% / 9); height: 100%; background: var(--gold); transition: width .25s ease; }
+
+    .slide {
+      display: none;
+      min-height: 100svh;
+      padding: clamp(42px, 4.5vw, 72px) clamp(26px, 7vw, 112px) clamp(76px, 7vw, 94px);
+      position: relative;
+      overflow: auto;
+    }
+    .slide.is-active { display: flex; flex-direction: column; animation: enter .28s ease-out both; }
+    @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .slide::after {
+      content: attr(data-number);
+      position: absolute;
+      right: clamp(26px, 4vw, 58px);
+      bottom: 32px;
+      color: var(--muted);
+      font: 700 .72rem/1 var(--mono);
+      letter-spacing: .08em;
+    }
+
+    .eyebrow { margin: 0 0 22px; color: var(--gold); font: 700 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3 { font-family: var(--display); letter-spacing: -.055em; }
+    h1 { max-width: 12ch; margin: auto 0 22px; font-size: clamp(3.35rem, 8.8vw, 6.8rem); line-height: .92; }
+    h2 { margin: 0; max-width: 24ch; font-size: clamp(2.2rem, 5vw, 4.4rem); line-height: .98; }
+    h3 { margin: 0 0 10px; font-size: clamp(1.15rem, 2.2vw, 1.85rem); line-height: 1.04; }
+    p { margin: 0; }
+    .lead { max-width: 64ch; margin-top: 24px; color: var(--muted); font-size: clamp(1.1rem, 2vw, 1.48rem); line-height: 1.45; }
+    .big-claim { max-width: 25ch; margin: auto 0; font-family: var(--display); font-size: clamp(2.25rem, 5.5vw, 5rem); line-height: 1.05; letter-spacing: -.05em; }
+    .accent { color: var(--gold); }
+    .teal { color: var(--teal); }
+    .green { color: var(--green); }
+
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: transparent;
+      text-decoration: none;
+      font: 700 .68rem/1 var(--mono);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); border-color: var(--gold); }
+    .button-primary { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+
+    .meta { display: flex; justify-content: space-between; gap: 24px; color: var(--muted); font: 700 .66rem/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+    .title-rule { width: min(460px, 60vw); height: 2px; margin: 28px 0 18px; background: var(--line); }
+    .author { color: var(--ink); font-size: 1.05rem; font-weight: 800; }
+
+    .state-grid, .card-grid, .archive-grid, .packet-grid { display: grid; gap: 14px; margin-top: auto; }
+    .state-grid { grid-template-columns: 1fr 1fr; }
+    .state, .panel, .card { border: 1px solid var(--line); background: var(--surface); padding: clamp(22px, 3vw, 34px); }
+    .state:last-child { background: rgba(117, 189, 140, .09); border-color: rgba(117, 189, 140, .55); }
+    .label { display: block; margin-bottom: 20px; color: var(--muted); font: 700 .66rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .state strong { display: block; max-width: 25ch; font-size: clamp(1.25rem, 2.4vw, 2rem); line-height: 1.2; }
+
+    .milestone {
+      display: grid;
+      grid-template-columns: minmax(180px, .55fr) 1.45fr;
+      align-items: center;
+      gap: clamp(26px, 5vw, 74px);
+      margin-top: auto;
+      padding: clamp(28px, 4vw, 48px);
+      border: 1px solid rgba(240, 189, 69, .5);
+      background: rgba(240, 189, 69, .08);
+    }
+    .milestone-date { color: var(--gold); font: 800 clamp(3.8rem, 8vw, 7rem)/.86 var(--display); letter-spacing: -.07em; }
+    .milestone-date span { display: block; margin-top: 14px; color: var(--muted); font: 700 .72rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .milestone strong { display: block; font-size: clamp(1.45rem, 3vw, 2.6rem); line-height: 1.15; }
+    .milestone p { margin-top: 16px; color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.2rem); line-height: 1.5; }
+
+    .archive-grid { grid-template-columns: repeat(3, 1fr); }
+    .archive-card { min-height: 250px; border: 1px solid var(--line); background: var(--surface); padding: 28px; }
+    .archive-card.current { background: rgba(240, 189, 69, .08); border-color: rgba(240, 189, 69, .55); }
+    .archive-card p { color: var(--muted); line-height: 1.45; }
+    .archive-card strong { display: block; margin-bottom: 14px; font-size: clamp(1.25rem, 2.6vw, 2.1rem); line-height: 1.15; }
+    .archive-links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 22px; }
+    .archive-links a { color: var(--muted); text-decoration: none; font: 700 .65rem/1.4 var(--mono); border-bottom: 1px solid var(--line); }
+    .archive-links a:hover { color: var(--gold); border-color: var(--gold); }
+
+    .card-grid { grid-template-columns: repeat(3, 1fr); }
+    .card { min-height: 235px; }
+    .card:nth-child(even) { background: var(--surface-2); }
+    .card p { color: var(--muted); line-height: 1.45; }
+    .card strong { display: block; margin-bottom: 14px; font-size: clamp(1.2rem, 2.5vw, 2rem); line-height: 1.15; }
+    .status { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 18px; color: var(--green); font: 800 .64rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+    .status.active { color: var(--gold); }
+    .status.next { color: var(--blue); }
+
+    .boundary {
+      margin-top: 18px;
+      padding: 16px 20px;
+      border-left: 4px solid var(--gold);
+      background: rgba(240, 189, 69, .07);
+      color: var(--muted);
+      font-size: .94rem;
+      line-height: 1.48;
+    }
+    .boundary strong { color: var(--ink); }
+
+    .packet-grid { grid-template-columns: .9fr 1.1fr; }
+    .checklist { display: grid; gap: 11px; padding: 0; margin: 18px 0 0; list-style: none; }
+    .checklist li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; color: var(--muted); font-weight: 720; line-height: 1.35; }
+    .checklist li::before { content: "✓"; color: var(--green); }
+    .checklist li.pending::before { content: "→"; color: var(--gold); }
+    .packet-metric { display: flex; align-items: baseline; gap: 12px; margin-top: 20px; }
+    .packet-metric strong { color: var(--gold); font: 800 clamp(3.5rem, 7vw, 6rem)/1 var(--display); letter-spacing: -.07em; }
+    .packet-metric span { max-width: 13ch; color: var(--muted); font-weight: 750; line-height: 1.25; }
+
+    .pathway {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: auto;
+      border: 1px solid var(--line);
+    }
+    .path-step { min-height: 245px; padding: 26px; border-right: 1px solid var(--line); background: var(--surface); }
+    .path-step:last-child { border-right: 0; }
+    .path-step.current { background: rgba(240, 189, 69, .08); }
+    .path-step.approved { background: rgba(117, 189, 140, .08); }
+    .path-step .step { color: var(--gold); font: 800 .68rem/1 var(--mono); letter-spacing: .08em; }
+    .path-step h3 { margin-top: 56px; }
+    .path-step p { color: var(--muted); font-size: .94rem; line-height: 1.5; }
+
+    .timeline { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px; margin-top: auto; padding-top: 84px; }
+    .timeline::before { content: ""; position: absolute; top: 40px; left: 2%; right: 2%; height: 2px; background: var(--line); }
+    .phase { position: relative; }
+    .phase::before { content: ""; position: absolute; width: 14px; height: 14px; border-radius: 50%; top: -51px; left: 0; background: var(--gold); box-shadow: 0 0 0 6px var(--bg); }
+    .phase span { display: block; margin-bottom: 28px; color: var(--gold); font: 700 .74rem/1 var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+    .phase p { max-width: 30ch; color: var(--muted); font-size: 1rem; line-height: 1.5; }
+
+    .questions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 26px; }
+    .questions strong { font-size: clamp(1.25rem, 2.5vw, 2rem); line-height: 1.15; }
+    .closing { margin-top: 28px; font-family: var(--display); font-size: clamp(1.2rem, 2.4vw, 2rem); letter-spacing: -.035em; }
+    .feedback-panel { margin-top: auto; }
+    .resource-links { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 20px; color: var(--muted); font: 700 .65rem/1.4 var(--mono); }
+    .resource-links a { text-decoration: none; border-bottom: 1px solid var(--line); }
+    .resource-links a:hover { color: var(--gold); border-color: var(--gold); }
+
+    .controls {
+      position: fixed;
+      z-index: 60;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      background: rgba(17, 19, 24, .92);
+      backdrop-filter: blur(12px);
+    }
+    .controls button { width: 42px; height: 38px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+    .controls button:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+    .controls button:disabled { opacity: .35; cursor: not-allowed; }
+    .slide-status { min-width: 74px; text-align: center; color: var(--muted); font: 700 .68rem/1 var(--mono); }
+    .shortcut { position: fixed; left: 24px; bottom: 28px; color: var(--muted); font: .62rem/1.4 var(--mono); z-index: 30; }
+
+    @media (min-width: 901px) and (max-height: 800px) {
+      .slide { padding-top: 34px; padding-bottom: 74px; }
+      .eyebrow { margin-bottom: 14px; }
+      h1 { font-size: clamp(3.2rem, 8vw, 5.9rem); }
+      h2 { font-size: clamp(2.1rem, 4.4vw, 3.7rem); }
+      .lead { margin-top: 14px; font-size: clamp(1rem, 1.65vw, 1.2rem); line-height: 1.35; }
+      .big-claim { font-size: clamp(2.1rem, 4.5vw, 4rem); }
+      .archive-card, .card, .path-step { min-height: 0; padding: 22px; }
+      .path-step h3 { margin-top: 34px; }
+      .timeline { padding-top: 68px; }
+      .questions { gap: 18px; margin-top: 20px; }
+      .closing { margin-top: 18px; }
+      .boundary { margin-top: 12px; padding-block: 12px; }
+    }
+
+    @media (max-width: 900px) {
+      body { overflow: auto; }
+      .slide { min-height: 100svh; }
+      .card-grid, .archive-grid, .state-grid, .packet-grid { grid-template-columns: 1fr 1fr; }
+      .archive-card:last-child, .card:last-child { grid-column: 1 / -1; }
+      .pathway { grid-template-columns: 1fr 1fr; }
+      .path-step:nth-child(2) { border-right: 0; }
+      .path-step:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .timeline { grid-template-columns: 1fr; padding: 20px 0 0 36px; }
+      .timeline::before { top: 0; left: 7px; bottom: 0; right: auto; width: 2px; height: auto; }
+      .phase::before { top: 0; left: -36px; }
+      .milestone { grid-template-columns: 1fr; }
+      .shortcut { display: none; }
+    }
+
+    @media (max-width: 620px) {
+      .slide { padding-inline: 22px; }
+      .card-grid, .archive-grid, .state-grid, .packet-grid, .pathway, .questions { grid-template-columns: 1fr; }
+      .archive-card:last-child, .card:last-child { grid-column: auto; }
+      .meta { flex-direction: column; }
+      .controls { bottom: 10px; }
+      .path-step { border-right: 0; border-bottom: 1px solid var(--line); }
+      .path-step:last-child { border-bottom: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+
+    @media print {
+      @page { size: 13.333in 7.5in; margin: 0; }
+      body { overflow: visible; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .progress, .controls, .shortcut { display: none !important; }
+      .slide, .slide.is-active { display: flex !important; min-height: 7.5in; height: 7.5in; overflow: hidden; page-break-after: always; animation: none; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+  <main id="deck" aria-live="polite">
+    <section class="slide is-active" id="slide-1" data-number="01 / 09" aria-labelledby="title-1">
+      <div class="meta"><span>CCD-698 • Dissertation Research Seminar</span><span>August 2026</span></div>
+      <h1 id="title-1">Month Three: Defense <span class="accent">Passed</span></h1>
+      <p class="lead">I passed my Chapters 1-3 dissertation proposal defense on August 13. The next phase is interview-guide refinement, IRB review, and approved research.</p>
+      <div class="title-rule"></div>
+      <p class="author">Micah Miner</p>
+      <div class="actions">
+        <button class="button button-primary" type="button" data-next>Begin presentation</button>
+        <a class="button" href="https://minerclass.github.io/ccd698-month-two-checkin/" target="_blank" rel="noopener">Review Month Two ↗</a>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" data-number="02 / 09" aria-labelledby="title-2">
+      <p class="eyebrow">The month in one sentence</p>
+      <h2 id="title-2">The proposal defense is complete</h2>
+      <div class="milestone">
+        <div class="milestone-date">AUG 13<span>2026 milestone</span></div>
+        <div>
+          <strong>I passed the defense of my dissertation proposal, Chapters 1-3.</strong>
+          <p>The committee approved the study to move into focused instrument revisions and IRB preparation.</p>
+          <div class="resource-links"><a href="https://minerclass.github.io/diss-proposal-defense/" target="_blank" rel="noopener">Proposal-defense presentation ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" data-number="03 / 09" aria-labelledby="title-3">
+      <p class="eyebrow">The check-in series</p>
+      <h2 id="title-3">Three check-ins show the proposal-to-research transition</h2>
+      <p class="lead">Each update records a completed transition and the next responsible step.</p>
+      <div class="archive-grid">
+        <article class="archive-card">
+          <span class="status">Complete</span>
+          <strong>Monthly Check-in 1</strong>
+          <p>Set first-month goals for proposal revision, defense readiness, and research infrastructure.</p>
+          <div class="archive-links"><a href="https://minerclass.github.io/ccd698-first-month-goals/" target="_blank" rel="noopener">Presentation ↗</a><a href="https://github.com/minerclass/ccd698-first-month-goals" target="_blank" rel="noopener">GitHub ↗</a></div>
+        </article>
+        <article class="archive-card">
+          <span class="status">Complete</span>
+          <strong>Monthly Check-in 2</strong>
+          <p>Documented defense approval and the work needed to align the emerging IRB package.</p>
+          <div class="archive-links"><a href="https://minerclass.github.io/ccd698-month-two-checkin/" target="_blank" rel="noopener">Presentation ↗</a><a href="https://github.com/minerclass/ccd698-month-two-checkin" target="_blank" rel="noopener">GitHub ↗</a></div>
+        </article>
+        <article class="archive-card current">
+          <span class="status active">Current</span>
+          <strong>Monthly Check-in 3</strong>
+          <p>Records the passed defense and the controlled path from interview-guide revisions to approved research.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" data-number="04 / 09" aria-labelledby="title-4">
+      <p class="eyebrow">Committee feedback</p>
+      <h2 id="title-4">The next revisions focus on the qualitative interview guide</h2>
+      <p class="lead">The study remains centered on participants' experiences. The immediate work is to strengthen how the interviews invite those accounts.</p>
+      <div class="card-grid">
+        <article class="card"><span class="status">Received</span><strong>Committee feedback</strong><p>Review the committee's comments on the interview questions and translate them into a focused revision list.</p></article>
+        <article class="card"><span class="status active">In progress</span><strong>Interview-guide revision</strong><p>Check wording, sequence, prompts, and alignment while preserving the approved qualitative design.</p></article>
+        <article class="card"><span class="status next">Then</span><strong>Final consistency pass</strong><p>Make sure the guide, proposal, consent materials, and IRB application describe the same study.</p></article>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" data-number="05 / 09" aria-labelledby="title-5">
+      <p class="eyebrow">Instrument rehearsal</p>
+      <h2 id="title-5">Two test interviews will improve the guide before submission</h2>
+      <p class="lead">The rehearsals will focus on the instrument, not on generating dissertation findings.</p>
+      <div class="card-grid">
+        <article class="card"><span class="label">Listen for</span><strong>Question clarity</strong><p>Identify wording that is confusing, overly broad, or difficult to answer as intended.</p></article>
+        <article class="card"><span class="label">Observe</span><strong>Conversational flow</strong><p>Check whether the order and follow-up prompts support a natural qualitative interview.</p></article>
+        <article class="card"><span class="label">Record</span><strong>Guide-level lessons</strong><p>Capture revision notes about the instrument rather than responses, findings, or participant data.</p></article>
+      </div>
+      <p class="boundary"><strong>Pre-IRB boundary:</strong> These are interview rehearsals, not dissertation data collection. No recruitment, study data, or participant responses will enter the research record. I will confirm this boundary with my chair and the IRB before proceeding.</p>
+    </section>
+
+    <section class="slide" id="slide-6" data-number="06 / 09" aria-labelledby="title-6">
+      <p class="eyebrow">IRB readiness</p>
+      <h2 id="title-6">The IRB application is the next formal gate</h2>
+      <p class="lead">Month Two established the application foundation. Month Three closes the remaining instrument and approval work.</p>
+      <div class="packet-grid">
+        <section class="panel">
+          <span class="label">Completed foundation</span>
+          <ul class="checklist">
+            <li>Chapters 1-3 proposal defense passed</li>
+            <li>CITI training completed</li>
+            <li>Core IRB materials assembled</li>
+            <li>Committee feedback received</li>
+          </ul>
+        </section>
+        <section class="panel">
+          <span class="label">Required before submission</span>
+          <div class="packet-metric"><strong>4</strong><span>remaining steps</span></div>
+          <ul class="checklist">
+            <li class="pending">Revise the qualitative interview guide</li>
+            <li class="pending">Complete two bounded test interviews</li>
+            <li class="pending">Apply lessons across the IRB packet</li>
+            <li class="pending">Obtain chair review and submit</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-7" data-number="07 / 09" aria-labelledby="title-7">
+      <p class="eyebrow">Research authorization</p>
+      <h2 id="title-7">Research begins only after written IRB approval</h2>
+      <p class="lead">Submitting the application starts the review process. Approval, not submission, authorizes recruitment and data collection.</p>
+      <div class="pathway">
+        <article class="path-step current"><span class="step">01</span><h3>Finalize</h3><p>Revise the guide, complete the rehearsals, and align all participant-facing materials.</p></article>
+        <article class="path-step"><span class="step">02</span><h3>Submit</h3><p>Complete the application, obtain the required chair approval, and send the full packet.</p></article>
+        <article class="path-step"><span class="step">03</span><h3>Await review</h3><p>Respond to IRB questions or requested changes and wait for the approval letter.</p></article>
+        <article class="path-step approved"><span class="step">04</span><h3>Begin research</h3><p>After written approval, start recruitment and conduct the qualitative interviews.</p></article>
+      </div>
+      <div class="resource-links"><a href="https://nl.edu/about/leadership/provost/institutional-research-board/irb-forms/" target="_blank" rel="noopener">NLU IRB forms ↗</a><a href="https://nl.edu/media/nledu/content-assets/documents/leadership/irb/irb-forms/IRB-Application-Form-for-NLU-Research.pdf" target="_blank" rel="noopener">NLU IRB application ↗</a></div>
+    </section>
+
+    <section class="slide" id="slide-8" data-number="08 / 09" aria-labelledby="title-8">
+      <p class="eyebrow">Next 30 days</p>
+      <h2 id="title-8">The path forward is now specific</h2>
+      <p class="lead">The sequence protects the approved design while moving the study toward participant research.</p>
+      <div class="timeline">
+        <article class="phase"><span>Revise</span><h3>Apply feedback</h3><p>Turn committee feedback into targeted changes to the interview guide.</p></article>
+        <article class="phase"><span>Rehearse</span><h3>Test twice</h3><p>Conduct two bounded interview rehearsals and refine the guide.</p></article>
+        <article class="phase"><span>Submit</span><h3>Complete IRB</h3><p>Align the packet, secure chair approval, and submit the application.</p></article>
+        <article class="phase"><span>After approval</span><h3>Start research</h3><p>Begin recruitment and qualitative interviews only when written approval is in hand.</p></article>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-9" data-number="09 / 09" aria-labelledby="title-9">
+      <p class="eyebrow">Feedback for the next phase</p>
+      <h2 id="title-9">Three questions will strengthen the interview guide and IRB packet</h2>
+      <section class="panel feedback-panel">
+        <span class="label">Feedback I need now</span>
+        <div class="questions"><strong>Which interview question needs clearer wording?</strong><strong>Where might the guide lead or constrain a participant's account?</strong><strong>What alignment issue could delay IRB review?</strong></div>
+      </section>
+      <p class="closing">I passed the proposal defense. The next job is to strengthen the interview guide and clear IRB before research begins.</p>
+      <div class="actions"><a class="button" href="https://minerclass.github.io/ccd698-first-month-goals/" target="_blank" rel="noopener">Month One ↗</a><a class="button" href="https://minerclass.github.io/ccd698-month-two-checkin/" target="_blank" rel="noopener">Month Two ↗</a><a class="button button-primary" href="https://minerclass.github.io/" target="_blank" rel="noopener">Research ecosystem ↗</a><button class="button" type="button" data-first>Return to beginning</button></div>
+    </section>
+  </main>
+
+  <div class="shortcut" aria-hidden="true">← → navigate • Home / End jump • Space advances</div>
+  <nav class="controls" aria-label="Slide controls">
+    <button id="previous" type="button" aria-label="Previous slide">←</button>
+    <span class="slide-status" id="slide-status" aria-live="polite">1 / 9</span>
+    <button id="next" type="button" aria-label="Next slide">→</button>
+  </nav>
+
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const previous = document.querySelector('#previous');
+      const next = document.querySelector('#next');
+      const status = document.querySelector('#slide-status');
+      const progress = document.querySelector('#progress-bar');
+      let current = Math.max(0, Math.min(slides.length - 1, Number(location.hash.replace('#slide-', '')) - 1 || 0));
+      let touchStartX = null;
+
+      function show(index, updateHash = true) {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach((slide, i) => {
+          const active = i === current;
+          slide.classList.toggle('is-active', active);
+          slide.setAttribute('aria-hidden', String(!active));
+          slide.inert = !active;
+        });
+        status.textContent = `${current + 1} / ${slides.length}`;
+        progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+        previous.disabled = current === 0;
+        next.disabled = current === slides.length - 1;
+        if (updateHash) history.replaceState(null, '', `#slide-${current + 1}`);
+        slides[current].scrollTop = 0;
+      }
+
+      previous.addEventListener('click', () => show(current - 1));
+      next.addEventListener('click', () => show(current + 1));
+      document.querySelectorAll('[data-next]').forEach(button => button.addEventListener('click', () => show(current + 1)));
+      document.querySelectorAll('[data-first]').forEach(button => button.addEventListener('click', () => show(0)));
+
+      document.addEventListener('keydown', event => {
+        if (event.target.closest('a, button, input, textarea, select')) return;
+        if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') { event.preventDefault(); show(current + 1); }
+        if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); show(current - 1); }
+        if (event.key === 'Home') { event.preventDefault(); show(0); }
+        if (event.key === 'End') { event.preventDefault(); show(slides.length - 1); }
+      });
+
+      document.addEventListener('touchstart', event => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
+      document.addEventListener('touchend', event => {
+        if (touchStartX === null) return;
+        const distance = event.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(distance) > 60) show(current + (distance < 0 ? 1 : -1));
+        touchStartX = null;
+      }, { passive: true });
+
+      window.addEventListener('hashchange', () => {
+        const requested = Number(location.hash.replace('#slide-', '')) - 1;
+        if (Number.isInteger(requested)) show(requested, false);
+      });
+
+      show(current, false);
+    })();
+  </script>
+</body>
+</html>
